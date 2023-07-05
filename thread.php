@@ -1,0 +1,73 @@
+<?php
+    //se il parametro t dell'url è vuoto allora rimando alla homepage
+    if (!isset($_GET["t"]))
+    {
+        include "catalogredirect.html";
+    }
+?>
+
+<h1><?php echo $_GET["t"]; ?></h1>
+
+<?php  
+
+    $authors = array();
+    $contents = array();
+    $dates = array();
+    $post_idS = array();
+
+    $thread = $_GET["t"];
+
+    $conn = new mysqli("localhost","memeboard","memeboard","memeboard");
+
+    if ($conn->connect_error)
+    {
+        die("Failed connection to the database");
+    }
+    
+    //$getPostQuery = "SELECT * FROM `threadone`";
+    //$xGetPostQuery = $conn->query($getPostQuery);
+    $getPostQuery = "SELECT * FROM `$thread`";
+    $doesTableExists = "SHOW TABLES LIKE '$thread'";
+
+    //nell if lancio una query per vedere se sto selezionando una tabella che esiste
+    //e poi con fetch_all() vado a prendere il booleano che mi interessa
+    if($conn->query($doesTableExists)->fetch_all())    
+    {
+        //tutto sto pippone assegna a delle variabili i contenuti della query
+        $xGetPostQuery = $conn->query($getPostQuery);
+        while ($row = $xGetPostQuery->fetch_assoc())
+        {
+            $authors[] = $row["author"];
+            $contents[] = $row["content"];
+            $dates[] = $row["date"];
+            $post_idS[] = $row["post_id"]; 
+        }
+        for ($i = 0; $i < count($authors); $i++)
+        {
+            $author = $authors[$i];
+            $content = $contents[$i];
+            $date = $dates[$i];
+            $post_id = $post_idS[$i];
+            include "post.php";
+        }
+    }
+    else
+    {
+        echo "Maybe the thread does not exist. :(";
+    }
+
+    $conn->close();
+    
+?>
+<br>
+
+<form method="POST" action=<?php echo "newpost.php?t=".$thread ?>>
+    <h4>Add a new comment</h4>
+    <label for="nickName">Choose a nickname:</label><br>
+    <input type="text" name="nickName" id="nickName"><br>
+    <label for="postContent">Write your comment:</label><br>
+    <input type="text" name="postContent" id="postContent"><br>
+    <input type="submit">
+</form>
+
+<h5><a href="index.php">Back to catalog</a></h5>
