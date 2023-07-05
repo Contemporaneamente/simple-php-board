@@ -77,9 +77,9 @@
     <form method="POST" action=<?php echo "newpost.php?t=".$thread ?>>
         <h4>Add a new comment</h4>
         <label for="nickName">Choose a nickname:</label><br>
-        <input type="text" name="nickName" id="nickName" class="form-control mb-3">
+        <input type="text" name="nickName" id="nickName" class="form-control mb-3" placeholder="Anonymous">
         <label for="postContent">Write your comment:</label><br>
-        <textarea type="text" name="postContent" id="postContent" class="form-control mb-3"></textarea>
+        <textarea type="text" name="postContent" id="postContent" class="form-control mb-3" required title="Comment can't be empty." placeholder="Write your comment here."></textarea>
         <input type="submit" class="form-control btn btn-primary">
     </form>
 

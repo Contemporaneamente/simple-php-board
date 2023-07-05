@@ -1,5 +1,8 @@
 <?php
     $conn = new mysqli("localhost","memeboard","memeboard","memeboard");
+    $postAuthor = "";
+    $postContent = "";
+    $threadTable = "";
 
     if ($conn->connect_error)
     {
@@ -7,26 +10,39 @@
     }
     echo "Successful connection to the database<br>";
     
-    $threadTable = $_POST["threadTitle"];
-
-    $threadTableQuery = "CREATE TABLE `$threadTable` ( `post_id` int(6) UNSIGNED NOT NULL, `author` varchar(30) NOT NULL, `content` text NOT NULL, `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"; 
-    $xThreadTabbleQuery = $conn->query($threadTableQuery);
-
-    echo "Table created<br>";
-    
-    $alterTableQuery1 = "ALTER TABLE `$threadTable` ADD PRIMARY KEY (`post_id`), ADD UNIQUE KEY `post_id` (`post_id`)";
-    $xAlterTableQuery1 = $conn->query($alterTableQuery1);
-
-    echo "Step 1<br>";
-
-    $alterTableQuery2 = "ALTER TABLE `$threadTable` MODIFY `post_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1"; 
-    $xAlterTableQuery2 = $conn->query($alterTableQuery2);
-
-    echo "Step 2<br>";
-
-    if(!empty($_POST))
+    //mi assicuro che il titolo sia stato inserito per non avere erori SQL sulla creazione della tabella
+    if(!("" == trim($_POST["threadTitle"])))
     {
-        $postAuthor = $_POST["nickName"];
+        $threadTable = $_POST["threadTitle"];
+
+        $threadTableQuery = "CREATE TABLE `$threadTable` ( `post_id` int(6) UNSIGNED NOT NULL, `author` varchar(30) NOT NULL, `content` text NOT NULL, `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"; 
+        $xThreadTabbleQuery = $conn->query($threadTableQuery);
+
+        echo "Table created<br>";
+        
+        $alterTableQuery1 = "ALTER TABLE `$threadTable` ADD PRIMARY KEY (`post_id`), ADD UNIQUE KEY `post_id` (`post_id`)";
+        $xAlterTableQuery1 = $conn->query($alterTableQuery1);
+
+        echo "Step 1<br>";
+
+        $alterTableQuery2 = "ALTER TABLE `$threadTable` MODIFY `post_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1"; 
+        $xAlterTableQuery2 = $conn->query($alterTableQuery2);
+
+        echo "Step 2<br>";
+    }
+
+    if(!empty($_POST) && !("" == trim($_POST["postContent"])))
+    {
+
+        if("" == trim($_POST["nickName"]))
+        {
+            $postAuthor = "Anonymous";
+        }
+        else
+        {
+            $postAuthor = $_POST["nickName"];
+        }
+
         $postContent = $_POST["postContent"];
 
         $newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES (?,?)";

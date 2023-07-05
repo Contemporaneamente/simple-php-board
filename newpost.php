@@ -1,5 +1,7 @@
 <?php
     $thread = $_GET["t"];
+    $postAuthor = "";
+    $postContent = "";
 
     $conn = new mysqli("localhost","memeboard","memeboard","memeboard");
 
@@ -9,9 +11,19 @@
     }
     echo "Successful connection to the database<br>";
     
-    if(!empty($_POST))
+    if(!empty($_POST) && !("" == trim($_POST["postContent"])))
     {
-        $postAuthor = $_POST["nickName"];
+        //check per controllare che il nickname sia stato inserito
+        if("" == trim($_POST["nickName"]))
+        {
+            $postAuthor = "Anonymous";
+        }
+        else
+        {
+            $postAuthor = $_POST["nickName"];
+        }
+        
+        //per il contenuto non è così importante che si controlli che anche la richiesta abbia testo
         $postContent = $_POST["postContent"];
 
         $newPostQuery = "INSERT INTO `$thread` (`author`, `content`) VALUES (?,?)";
