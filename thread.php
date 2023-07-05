@@ -12,13 +12,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>GATTOBOARD - <?php echo strtoupper($_GET["t"]); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   </head>
   <body> 
     <div class="container-sm">
 
-    <h1 class="pb-3"><?php echo $_GET["t"]; ?></h1>
+    <h1 class="pb-3"><?php echo strtoupper($_GET["t"]); ?></h1>
 
     <?php  
 
@@ -54,7 +54,7 @@
                 $dates[] = $row["date"];
                 $post_idS[] = $row["post_id"]; 
             }
-            
+
             for ($i = 0; $i < count($authors); $i++)
             {
                 $author = $authors[$i];
@@ -77,10 +77,10 @@
     <form method="POST" action=<?php echo "newpost.php?t=".$thread ?>>
         <h4>Add a new comment</h4>
         <label for="nickName">Choose a nickname:</label><br>
-        <input type="text" name="nickName" id="nickName"><br>
+        <input type="text" name="nickName" id="nickName" class="form-control mb-3">
         <label for="postContent">Write your comment:</label><br>
-        <input type="text" name="postContent" id="postContent"><br><br>
-        <input type="submit">
+        <textarea type="text" name="postContent" id="postContent" class="form-control mb-3"></textarea>
+        <input type="submit" class="form-control btn btn-primary">
     </form>
 
     <h5 class="pt-3"><a href="index.php">Back to catalog</a></h5>
