@@ -13,7 +13,7 @@
     //mi assicuro che il titolo sia stato inserito per non avere erori SQL sulla creazione della tabella
     if(!("" == trim($_POST["threadTitle"])))
     {
-        $threadTable = $_POST["threadTitle"];
+        $threadTable = htmlspecialchars($_POST["threadTitle"]);
 
         $threadTableQuery = "CREATE TABLE `$threadTable` ( `post_id` int(6) UNSIGNED NOT NULL, `author` varchar(30) NOT NULL, `content` text NOT NULL, `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci"; 
         $xThreadTabbleQuery = $conn->query($threadTableQuery);
@@ -40,10 +40,10 @@
         }
         else
         {
-            $postAuthor = $_POST["nickName"];
+            $postAuthor = htmlspecialchars($_POST["nickName"]);
         }
 
-        $postContent = $_POST["postContent"];
+        $postContent = htmlspecialchars($_POST["postContent"]);
 
         $newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES (?,?)";
         $xNewPostQuery = $conn->execute_query($newPostQuery, [$postAuthor, $postContent]);

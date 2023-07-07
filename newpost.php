@@ -20,11 +20,11 @@
         }
         else
         {
-            $postAuthor = $_POST["nickName"];
+            $postAuthor = htmlspecialchars($_POST["nickName"]);
         }
         
         //per il contenuto non è così importante che si controlli che anche la richiesta abbia testo
-        $postContent = $_POST["postContent"];
+        $postContent = htmlspecialchars($_POST["postContent"]);
 
         $newPostQuery = "INSERT INTO `$thread` (`author`, `content`) VALUES (?,?)";
         $xNewPostQuery = $conn->execute_query($newPostQuery, [$postAuthor, $postContent]);
