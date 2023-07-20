@@ -11,7 +11,7 @@
 
     <div class="container-sm text-center">
 
-    <h1 class="pb-3">BENVENUTI SU GATTOBOARD</h1>
+    <h1 class="py-3">BENVENUTI SU GATTOBOARD</h1>
 
     <p>The following threads are open:</p>
 

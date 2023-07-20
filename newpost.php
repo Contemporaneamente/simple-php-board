@@ -1,5 +1,12 @@
 <?php
-    $thread = $_GET["t"];
+
+    $thread = array();
+
+    if(!empty($_GET) && !("" == trim($_GET["t"])))
+    {
+        $thread = $_GET["t"];
+    }
+
     $postAuthor = "";
     $postContent = "";
 
@@ -48,6 +55,5 @@
 ?>
 
 <script>
-        //window.location.replace("http://localhost/phptutorial/catalog.php");
         window.location.replace(<?php echo "'thread.php?t=".$thread."'" ?>);
 </script>

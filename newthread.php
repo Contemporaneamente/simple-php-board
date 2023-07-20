@@ -11,7 +11,7 @@
     echo "Successful connection to the database<br>";
     
     //mi assicuro che il titolo sia stato inserito per non avere erori SQL sulla creazione della tabella
-    if(!("" == trim($_POST["threadTitle"])))
+    if(!empty($_POST) && !("" == trim($_POST["threadTitle"])))
     {
         $threadTable = htmlspecialchars($_POST["threadTitle"]);
 
@@ -45,8 +45,10 @@
 
         $postContent = htmlspecialchars($_POST["postContent"]);
 
-        $newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES (?,?)";
-        $xNewPostQuery = $conn->execute_query($newPostQuery, [$postAuthor, $postContent]);
+        //$newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES (?,?)";
+        $newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES ('$postAuthor','$postContent')";
+        //$xNewPostQuery = $conn->execute_query($newPostQuery, [$postAuthor, $postContent]);
+        $xNewPostQuery = $conn->query($newPostQuery);
 
         if ($xNewPostQuery === TRUE)
         {

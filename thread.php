@@ -18,7 +18,7 @@
   <body> 
     <div class="container-sm">
 
-    <h1 class="pb-3"><?php echo strtoupper($_GET["t"]); ?></h1>
+    <h1 class="py-3"><?php echo strtoupper($_GET["t"]); ?></h1>
 
     <?php  
 
