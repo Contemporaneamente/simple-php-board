@@ -45,10 +45,14 @@
 
         $postContent = htmlspecialchars($_POST["postContent"]);
 
+        //SOSTITUIRE LE PROSSIME DUE RICGHE A <-> SE SI USA PHP>8.2
         //$newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES (?,?)";
-        $newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES ('$postAuthor','$postContent')";
         //$xNewPostQuery = $conn->execute_query($newPostQuery, [$postAuthor, $postContent]);
+
+        //<->
+        $newPostQuery = "INSERT INTO `$threadTable` (`author`, `content`) VALUES ('$postAuthor','$postContent')";
         $xNewPostQuery = $conn->query($newPostQuery);
+        //<->
 
         if ($xNewPostQuery === TRUE)
         {
